@@ -10,13 +10,10 @@ const routes = require('./routes/index');
 const app = express();
 mongoose.connect('localhost:27017/vue-todo');
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(logger('dev'));
-
-app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,7 +22,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/new', routes);
+app.use(routes);
 
 const host = (process.env.VCAP_APP_HOST || '0.0.0.0');
 const port = (process.env.VCAP_APP_PORT || 3000);

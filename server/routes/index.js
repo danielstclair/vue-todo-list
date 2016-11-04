@@ -39,8 +39,8 @@ router.post('/todo', (req, res, next) => {
   const { content } = req.body;
   // This will later be taken out through req.body
   const user = '5818e60ba3c0e432ea8ea9d1';
-  const status = req.body.status === 'false' ? false : true;
-  const todo = new Todo({ content, status, user });
+  const completed = req.body.completed === 'false' ? false : true;
+  const todo = new Todo({ content, completed, user });
   todo.save((err, result) => {
     if (err) {
       console.log(err);
