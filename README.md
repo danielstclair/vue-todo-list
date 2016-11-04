@@ -2,7 +2,7 @@
 A todo list exercise using Vue, Express, and Mongo.
 
 ## Getting Started
-Make sure you have Yarn installed. Also, it's best to have a few terminal windows open at once. I have four but three will do.
+Make sure you have Yarn and Mongo installed. Also, it's best to have a few terminal windows open at once. I have four but three will do.
 
 * In window 1 from the root run ```cd client && yarn```
 * In window 2 from the root run ```cd server && yarn```
