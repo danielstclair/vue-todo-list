@@ -12,6 +12,6 @@ export function editTodo ({ commit }, todo) {
   return commit(types.EDIT_TODO, todo)
 }
 
-export function deleteTodo ({ commit }, todo) {
+export function deleteTodo ({ state, commit }, todo) {
   return commit(types.DELETE_TODO, todo.id);
 }
