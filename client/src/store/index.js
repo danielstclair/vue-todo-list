@@ -9,7 +9,8 @@ Vue.use(Vuex);
 const state = {
   todos: [],
   activeTodo: {},
-  inputVal: ''
+  inputVal: '',
+  isComplete: false
 };
 
 export default new Vuex.Store({

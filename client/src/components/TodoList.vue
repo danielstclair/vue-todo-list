@@ -1,6 +1,6 @@
 <template lang="html">
   <section class="main" v-if="todos.length">
-    <input class="toggle-all" type="checkbox" />
+    <input class="toggle-all" type="checkbox" @click="toggleAll" />
     <ul class="todo-list">
       <li
         class="todo"
@@ -9,9 +9,12 @@
         v-bind:class="{completed: todo.status}"
         >
         <div class="view">
-          <input @click="toggleTodo(todo)" type="checkbox" class="toggle" />
+          <input v-model="todo.status"
+            @click="toggleTodo(todo)"
+            type="checkbox"
+            class="toggle" />
           <label>{{ todo.content }}</label>
-          <button @click="deleteTodo(todo)" class="destroy"></button>
+          <button @click="deleteTodo([todo])" class="destroy"></button>
         </div>
         <!-- This is the input for editing Todo Content. Will implement later. -->
         <!-- <input class="edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)"> -->
@@ -31,15 +34,19 @@
           </a>
         </li>
       </ul>
-      <button @click="deleteTodo(completedTodos)" class="clear-completed">Clear completed</button>
+      <button v-if="!itemsLeft"
+        @click="deleteTodo(completedTodos)"
+        class="clear-completed">
+        Clear completed
+      </button>
     </footer>
   </section>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
-  props: ['todos', 'editTodo'],
+  props: ['todos'],
   data () {
     return {
       filters: [
@@ -62,11 +69,19 @@ export default {
       filter.isSelected = true;
     },
     deleteTodo (todos) {
-      if (!Array.isArray(todos)) {
-        return this.$store.dispatch('deleteTodo', [ todos ]);
+      return this.deleteTodo(todos);
+    },
+    toggleAll () {
+      this.toggleComplete();
+      const status = this.todos.map(todo => {
+        return todo.status;
+      });
+      if (status.indexOf(false) > -1) {
+        return this.toggleTodos(true);
       }
-      return this.$store.dispatch('deleteTodo', todos);
-    }
+      return this.toggleTodos(false);
+    },
+    ...mapActions(['deleteTodo', 'editTodo', 'toggleComplete', 'toggleTodos'])
   },
   computed: {
     todoList () {
@@ -77,7 +92,7 @@ export default {
         case 'Active':
         return this.todos.filter(todo => todo.status === false);
         case 'Completed':
-        return this.todos.filter(todo => todo.status === true)
+        return this.completedTodos;
       }
       return [];
     },
@@ -88,7 +103,8 @@ export default {
       return this.todoList.filter(todo => {
         return todo.status === false;
       }).length;
-    }
+    },
+    ...mapGetters(['todos', 'isComplete'])
   }
 }
 </script>

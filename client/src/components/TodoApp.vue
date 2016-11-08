@@ -12,8 +12,7 @@
         placeholder="What needs to be done?">
   	</header>
 		<todo-list
-      :todos="todos"
-      :editTodo="editTodo"></todo-list>
+      :todos="todos"></todo-list>
   </section>
 </template>
 
@@ -27,10 +26,10 @@ export default {
     'todo-list': TodoList
   },
   methods: {
-    ...mapActions(['addTodo', 'editTodo'])
+    ...mapActions(['addTodo'])
   },
   computed: {
-    ...mapGetters(['todos', 'inputVal'])
+    ...mapGetters(['inputVal', 'todos'])
   }
 }
 </script>
