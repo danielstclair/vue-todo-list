@@ -12,6 +12,7 @@
           <label>{{ todo.content }}</label>
           <button class="destroy"></button>
         </div>
+        <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
       </li>
     </ul>
   </section>
@@ -19,11 +20,12 @@
 
 <script>
 export default {
-  props: ['todos', 'toggleTodo'],
-  data () {
-    return {
-      message: 'Todos will go here'
-    };
+  props: ['todos', 'editTodo'],
+  methods: {
+    toggleTodo (todo) {
+      todo.status = !todo.status;
+      this.editTodo(todo);
+    }
   }
 }
 </script>

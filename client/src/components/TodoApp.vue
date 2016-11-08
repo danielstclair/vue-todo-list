@@ -4,7 +4,7 @@
   		<h1>todos</h1>
 			<input
         v-model="inputVal"
-        @keyup.enter="onSubmit"
+        @keyup.enter="addTodo"
         type="text"
         class="new-todo"
         autofocus
@@ -13,11 +13,12 @@
   	</header>
 		<todo-list
       :todos="todos"
-      :toggleTodo="toggleTodo"></todo-list>
+      :editTodo="editTodo"></todo-list>
   </section>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import TodoList from './TodoList'
 
 export default {
@@ -25,27 +26,11 @@ export default {
   components: {
     'todo-list': TodoList
   },
-  data () {
-    return {
-      todos: [],
-      inputVal: null
-    };
-  },
   methods: {
-    onSubmit ({ target: { value: todo } }) {
-      // e.preventDefualt();
-      if (todo || todo.length) {
-        this.todos.push({ content: todo, status: false });
-        this.inputVal = null;
-      } else {
-        console.warn('You must enter a todo');
-      }
-    },
-    toggleTodo (todo) {
-      console.log(todo);
-      todo.completed = !todo.completed
-      console.log(todo);
-    }
+    ...mapActions(['addTodo', 'editTodo'])
+  },
+  computed: {
+    ...mapGetters(['todos', 'inputVal'])
   }
 }
 </script>
