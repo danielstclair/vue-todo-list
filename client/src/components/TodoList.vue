@@ -6,8 +6,8 @@
         class="todo"
         v-for="todo in todoList"
         :key="todo.id"
-        v-bind:class="{completed: todo.status, editing: isEditing}">
-        <div class="view" v-if="!isEditing">
+        v-bind:class="{completed: todo.status, editing: todo.isEditing}">
+        <div class="view" v-if="!todo.isEditing">
           <input v-model="todo.status"
             @click="toggleTodo(todo)"
             type="checkbox"
@@ -18,7 +18,7 @@
         <!-- This is the input for editing Todo Content. Will implement later. -->
         <input class="edit"
           type="text"
-          v-if="isEditing"
+          v-if="todo.isEditing"
           v-model="todo.content"
           @blur="doneEdit(todo)"
           @keyup.enter="doneEdit(todo)"
@@ -65,16 +65,16 @@ export default {
   },
   methods: {
     startEdit (todo) {
-      this.isEditing = true;
+      todo.isEditing = true;
       this.currentTodo = todo.content;
     },
     doneEdit (todo) {
-      this.isEditing = false;
+      todo.isEditing = false;
       this.currentTodo = null;
       return this.editTodo(todo);
     },
     cancelEdit (todo) {
-      this.isEditing = false;
+      todo.isEditing = false;
       todo.content = this.currentTodo;
       this.currentTodo = null;
     },

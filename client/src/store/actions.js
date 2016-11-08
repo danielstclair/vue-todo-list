@@ -3,7 +3,8 @@ import * as types from './types';
 export function addTodo ({ commit }, { target: { value: content } }) {
   const todo = {
     content,
-    status: false
+    status: false,
+    isEditing: false
   }
   return commit(types.ADD_TODO, todo);
 }
