@@ -12,6 +12,9 @@ export function editTodo ({ commit }, todo) {
   return commit(types.EDIT_TODO, todo)
 }
 
-export function deleteTodo ({ state, commit }, todo) {
-  return commit(types.DELETE_TODO, todo.id);
+// This is our function for deleting items. It accepts two arguments:
+// 1. Our commit function.
+// 2.
+export function deleteTodo ({ state, commit }, todos) {
+  return commit(types.DELETE_TODO, todos);
 }

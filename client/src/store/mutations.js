@@ -12,12 +12,13 @@ export default {
     });
     return Object.assign({}, oldVersion, newVersion);
   },
-  [types.DELETE_TODO] (state, todoId) {
+  [types.DELETE_TODO] (state, completedTodos) {
     let { todos } = state;
-    const oldTodo = todos.filter((todo, i) => {
-      return todo.id === todoId;
-    })[0];
-    const index = todos.indexOf(oldTodo);
-    return todos.splice(index, 1);
+    return completedTodos.map(ct => {
+      const index = todos.indexOf(ct);
+      if (index > -1) {
+        return todos.splice(index, 1);
+      }
+    });
   }
 }

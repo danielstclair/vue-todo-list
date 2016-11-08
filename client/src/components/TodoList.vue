@@ -26,11 +26,12 @@
           v-for="filter in filters"
           @click="selectFilter(filter)">
           <a href="#"
-            v-bind:class="{ selected : filter.isSelected }">
+            :class="{ selected : filter.isSelected }">
             {{ filter.title }}
           </a>
         </li>
       </ul>
+      <button @click="deleteTodo(completedTodos)" class="clear-completed">Clear completed</button>
     </footer>
   </section>
 </template>
@@ -60,14 +61,14 @@ export default {
       });
       filter.isSelected = true;
     },
-    ...mapActions(['deleteTodo'])
+    deleteTodo (todos) {
+      if (!Array.isArray(todos)) {
+        return this.$store.dispatch('deleteTodo', [ todos ]);
+      }
+      return this.$store.dispatch('deleteTodo', todos);
+    }
   },
   computed: {
-    itemsLeft () {
-      return this.todoList.filter(todo => {
-        return todo.status === false;
-      }).length;
-    },
     todoList () {
       const f = this.filters.filter(f => f.isSelected === true)[0];
       switch (f.title) {
@@ -79,6 +80,14 @@ export default {
         return this.todos.filter(todo => todo.status === true)
       }
       return [];
+    },
+    completedTodos () {
+      return this.todos.filter(todo => todo.status === true);
+    },
+    itemsLeft () {
+      return this.todoList.filter(todo => {
+        return todo.status === false;
+      }).length;
     }
   }
 }
