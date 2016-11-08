@@ -11,3 +11,7 @@ export function addTodo ({ commit }, { target: { value: content } }) {
 export function editTodo ({ commit }, todo) {
   return commit(types.EDIT_TODO, todo)
 }
+
+export function deleteTodo ({ commit }, todo) {
+  return commit(types.DELETE_TODO, todo.id);
+}

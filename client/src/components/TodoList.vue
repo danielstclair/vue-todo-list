@@ -5,27 +5,31 @@
       <li
         class="todo"
         v-for="todo in todos"
-        v-bind:class="{completed: todo.completed}"
+        :key="todo.id"
+        v-bind:class="{completed: todo.status}"
         >
         <div class="view">
-          <input v-on:click="toggleTodo(todo)" type="checkbox" class="toggle" />
+          <input @click="toggleTodo(todo)" type="checkbox" class="toggle" />
           <label>{{ todo.content }}</label>
-          <button class="destroy"></button>
+          <button @click="deleteTodo(todo)" class="destroy"></button>
         </div>
-        <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
+        <!-- This is the input for editing Todo Content. Will implement later. -->
+        <!-- <input class="edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)"> -->
       </li>
     </ul>
   </section>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   props: ['todos', 'editTodo'],
   methods: {
     toggleTodo (todo) {
       todo.status = !todo.status;
       this.editTodo(todo);
-    }
+    },
+    ...mapActions(['deleteTodo'])
   }
 }
 </script>

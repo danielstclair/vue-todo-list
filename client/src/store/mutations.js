@@ -11,5 +11,13 @@ export default {
       return todo.id === newVersion.id;
     });
     return Object.assign({}, oldVersion, newVersion);
+  },
+  [types.DELETE_TODO] (state, todoId) {
+    let { todos } = state;
+    const oldTodo = todos.filter((todo, i) => {
+      return todo.id === todoId;
+    })[0];
+    const index = todos.indexOf(oldTodo);
+    return todos.splice(index, 1);
   }
 }
