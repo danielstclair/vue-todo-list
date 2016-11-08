@@ -6,18 +6,23 @@
         class="todo"
         v-for="todo in todoList"
         :key="todo.id"
-        v-bind:class="{completed: todo.status}"
-        >
-        <div class="view">
+        v-bind:class="{completed: todo.status, editing: isEditing}">
+        <div class="view" v-if="!isEditing">
           <input v-model="todo.status"
             @click="toggleTodo(todo)"
             type="checkbox"
             class="toggle" />
-          <label>{{ todo.content }}</label>
+          <label @dblclick="startEdit(todo)">{{ todo.content }}</label>
           <button @click="deleteTodo([todo])" class="destroy"></button>
         </div>
         <!-- This is the input for editing Todo Content. Will implement later. -->
-        <!-- <input class="edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)"> -->
+        <input class="edit"
+          type="text"
+          v-if="isEditing"
+          v-model="todo.content"
+          @blur="doneEdit(todo)"
+          @keyup.enter="doneEdit(todo)"
+          @keyup.esc="cancelEdit(todo)">
       </li>
     </ul>
     <footer class="footer">
@@ -49,6 +54,8 @@ export default {
   props: ['todos'],
   data () {
     return {
+      currentTodo: null,
+      isEditing: false,
       filters: [
         { title: 'All', isSelected: true },
         { title: 'Active', isSelected: false },
@@ -57,6 +64,20 @@ export default {
     };
   },
   methods: {
+    startEdit (todo) {
+      this.isEditing = true;
+      this.currentTodo = todo.content;
+    },
+    doneEdit (todo) {
+      this.isEditing = false;
+      this.currentTodo = null;
+      return this.editTodo(todo);
+    },
+    cancelEdit (todo) {
+      this.isEditing = false;
+      todo.content = this.currentTodo;
+      this.currentTodo = null;
+    },
     toggleTodo (todo) {
       todo.status = !todo.status;
       this.editTodo(todo);
