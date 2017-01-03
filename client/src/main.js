@@ -2,7 +2,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-import Vuex from 'vuex';
 
 import store from './store';
 
@@ -11,7 +10,6 @@ import TodoList from './components/TodoList';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
-Vue.use(Vuex);
 
 const routes = [
   { path: '/', component: TodoList }
